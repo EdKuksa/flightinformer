@@ -1,21 +1,15 @@
+import locale.OtherMessages;
+
 import java.util.Scanner;
 
 public class FlightInformer {
     static FlightHandler flightHandler = new FlightHandler();
     public static void main(String[] args) {
-        System.out.println("Сервис поиска авиабилетов");
+        System.out.println(OtherMessages.MAIN_HEADER.getMessage());
         while (true) {
-            System.out.println("""
-                                                        
-                    Главное меню:
-                                    
-                    1 - ввод рейса
-                    2 - вывод всех рейсов
-                    3 - поиск рейса по номеру
-                    0 - завершение работы
-                    """);
+            System.out.println(OtherMessages.MAIN_MENU.getMessage());
             Scanner input = new Scanner(System.in);
-            System.out.print("Введите номер пункта меню: ");
+            System.out.print(OtherMessages.MAIN_MENU_INPUT.getMessage());
             int selectedItem = input.nextInt();
             switch (selectedItem) {
                 case 1 -> flightHandler.add();

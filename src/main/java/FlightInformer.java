@@ -12,9 +12,9 @@ public class FlightInformer {
             System.out.print(OtherMessages.MAIN_MENU_INPUT.getMessage());
             int selectedItem = input.nextInt();
             switch (selectedItem) {
-                case 1 -> flightHandler.add();
-                case 2 -> flightHandler.showAll();
-                case 3 -> flightHandler.show();
+                case 1 -> System.out.println(flightHandler.add());
+                case 2 -> System.out.println(flightHandler.showAll().toString());
+                case 3 -> System.out.println(flightHandler.show());
                 case 0 -> {
                     return;
                 }

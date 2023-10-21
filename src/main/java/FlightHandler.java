@@ -14,7 +14,8 @@ public class FlightHandler {
     private AirportsParser airportsParser = new AirportsParser();
 
     @SneakyThrows
-    public void add() {
+    public String add() {
+        String resultMessage;
         String errorMessage = "";
         boolean containStatus = false;
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -68,42 +69,48 @@ public class FlightHandler {
 
             Flight flight = new Flight(flightNumber, flightDate, flightTime, flightDuration, departureAirport, arrivalAirport, ticketCost);
             flights.add(flight);
-            System.out.println(OtherMessages.ADD_OUTPUT_PREFIX.getMessage() + flight + OtherMessages.ADD_OUTPUT_SUFFIX.getMessage());
+            resultMessage = OtherMessages.ADD_OUTPUT_PREFIX.getMessage() + flight + OtherMessages.ADD_OUTPUT_SUFFIX.getMessage();
         } catch (InputMismatchException e) {
-            System.out.println(ErrorMessages.PREFIX_MESSAGE.getMessage() + errorMessage);
+            resultMessage =  ErrorMessages.PREFIX_MESSAGE.getMessage() + errorMessage;
         }
+        return resultMessage;
     }
 
-    public void show() {
+    public String show() {
         boolean containStatus = false;
+        String resultMessage = "";
         try {
             System.out.print(OtherMessages.SHOW_INPUT.getMessage());
             Scanner input = new Scanner(System.in);
             String flightNumber = input.next("[a-zA-Z0-9]{4}").toUpperCase();
 
+
             for (Flight flight : flights) {
                 if (flight.getFlightNumber().equals(flightNumber)) {
-                    System.out.println(OtherMessages.SHOW_AND_SHOWALL_OUTPUT.getMessage() + flight);
+                    resultMessage = OtherMessages.SHOW_AND_SHOWALL_OUTPUT.getMessage() + flight;
                     containStatus = true;
                     break;
                 }
             }
             if (!containStatus) {
-                System.out.println(OtherMessages.SHOW_LOST_PREFIX.getMessage() + flightNumber + OtherMessages.SHOW_LOST_SUFFIX.getMessage());
+                resultMessage = OtherMessages.SHOW_LOST_PREFIX.getMessage() + flightNumber + OtherMessages.SHOW_LOST_SUFFIX.getMessage();
             }
         } catch (InputMismatchException e) {
-            System.out.println(OtherMessages.SHOW_ERROR.getMessage());
+             resultMessage = OtherMessages.SHOW_ERROR.getMessage();
         }
+        return resultMessage;
     }
 
-    public void showAll() {
+    public StringBuilder showAll() {
+        StringBuilder resultMessage = new StringBuilder();
         if (flights.isEmpty()) {
-            System.out.println(OtherMessages.SHOWALL_EMPTY.getMessage());
+            resultMessage.append(OtherMessages.SHOWALL_EMPTY.getMessage());
         }
 
         for (Flight flight : flights) {
-            System.out.println(OtherMessages.SHOW_AND_SHOWALL_OUTPUT.getMessage() + flight);
+            resultMessage.append(OtherMessages.SHOW_AND_SHOWALL_OUTPUT.getMessage() + flight + "\n");
         }
+        return resultMessage.deleteCharAt(resultMessage.length() - 1);
     }
 
     private String readInput(@NotNull InputMessages message, Scanner input) {
